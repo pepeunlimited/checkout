@@ -1,6 +1,6 @@
-# rpc-stater-kit
+# checkout
 
-A starting point project to create `todo`-service
+Most of the business logic is implemented to this `checkout`-service instead of `GraphQL`-layer.
 
 ## Go Directories
 
@@ -26,7 +26,7 @@ Speed up implementing the database access using [`ent`](https://github.com/faceb
 ### `/rpc`
 
 #### [`twirp`](https://github.com/twitchtv/twirp)
--  `$ protoc --proto_path=$GOPATH/src:. --twirp_out=. --go_out=. todo.proto`
+-  `$ protoc --proto_path=$GOPATH/src:. --twirp_out=. --go_out=. checkout.proto`
 
 
 ### `/scripts`

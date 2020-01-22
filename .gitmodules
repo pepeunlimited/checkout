@@ -1,0 +1,3 @@
+[submodule "checkoutrpc/protobuf"]
+	path = checkoutrpc/protobuf
+	url = git@github.com:pepeunlimited/protobuf.git

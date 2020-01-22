@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/pepeunlimited/checkout/internal/app/app1/server"
+	"github.com/pepeunlimited/checkout/checkoutrpc"
 	"github.com/pepeunlimited/microservice-kit/headers"
 	"github.com/pepeunlimited/microservice-kit/middleware"
-	"github.com/pepeunlimited/rpc-starter-kit/internal/app/app1/server"
-	"github.com/pepeunlimited/rpc-starter-kit/rpctodo"
 	"log"
 	"net/http"
 )
@@ -14,9 +14,9 @@ const (
 )
 
 func main() {
-	log.Printf("Starting the TodoServer... version=[%v]", Version)
+	log.Printf("Starting the CheckoutServer... version=[%v]", Version)
 
-	ts := rpctodo.NewTodoServiceServer(server.NewTodoServer(), nil)
+	ts := checkoutrpc.NewTodoServiceServer(server.NewCheckoutServer(), nil)
 
 	mux := http.NewServeMux()
 	mux.Handle(ts.PathPrefix(), middleware.Adapt(ts, headers.Username()))
