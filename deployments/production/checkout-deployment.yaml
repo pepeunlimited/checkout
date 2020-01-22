@@ -16,6 +16,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: RPC_ACCOUNTS_HOST
+              value: accounts
             - name: MYSQL_DATABASE
               value: users
             - name: MYSQL_HOST
@@ -26,7 +28,7 @@ spec:
               value: root
             - name: MYSQL_USER
               value: root
-          image: pepeunlimited/checkout:0.1
+          image: pepeunlimited/checkout:0.1.1
           name: checkout
           ports:
             - containerPort: 8080
