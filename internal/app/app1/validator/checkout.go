@@ -8,12 +8,15 @@ import (
 
 type CheckoutServerValidator struct {}
 
-func (v CheckoutServerValidator) CreateOrder(params *checkoutrpc.CreateOrderParams) error {
+func (v CheckoutServerValidator) CreateGiftVoucherOrder(params *checkoutrpc.CreateGiftVoucherOrderParams) error {
 	if params.UserId == 0 {
 		return twirp.RequiredArgumentError("user_id")
 	}
 	if params.ProductId == 0 {
 		return twirp.RequiredArgumentError("product_id")
+	}
+	if validator.IsEmpty(params.GiftVoucherId) {
+		return twirp.RequiredArgumentError("gift_voucher_id")
 	}
 	return nil
 }
@@ -24,6 +27,9 @@ func (v CheckoutServerValidator) CreateAppleIAP(params *checkoutrpc.CreateAppleI
 	}
 	if validator.IsEmpty(params.IapReceipt) {
 		return twirp.RequiredArgumentError("iap_receipt")
+	}
+	if params.ProductId == 0 {
+		return twirp.RequiredArgumentError("product_id")
 	}
 	return nil
 }
