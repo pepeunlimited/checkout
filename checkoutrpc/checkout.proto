@@ -10,8 +10,10 @@ import "google/protobuf/wrappers.proto";
 
 service CheckoutService {
 
+    // make a checkout using coins
     rpc CreateOrder(CreateOrderParams) returns (Checkout);
 
+    // make a checkout using apple's IAP function
     rpc CreateAppleIAP(CreateAppleIAPParams) returns (Checkout);
 }
 
