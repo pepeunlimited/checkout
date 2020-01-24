@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/pepeunlimited/accounts/accountsrpc"
+	"github.com/pepeunlimited/checkout/internal/app/app1/mysql"
 	"github.com/pepeunlimited/checkout/internal/app/app1/server"
 	"github.com/pepeunlimited/checkout/checkoutrpc"
 	"github.com/pepeunlimited/microservice-kit/middleware"
@@ -19,8 +20,9 @@ func main() {
 
 	accounts := accountsrpc.NewAccountServiceProtobufClient(misc.GetEnv(accountsrpc.RpcAccountsHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
 
+	client := mysql.NewEntClient()
 
-	cs := checkoutrpc.NewCheckoutServiceServer(server.NewCheckoutServer(accounts), nil)
+	cs := checkoutrpc.NewCheckoutServiceServer(server.NewCheckoutServer(accounts, client), nil)
 
 	mux := http.NewServeMux()
 	mux.Handle(cs.PathPrefix(), middleware.Adapt(cs))
