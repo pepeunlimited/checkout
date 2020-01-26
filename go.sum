@@ -69,6 +69,8 @@ github.com/pepeunlimited/accounts v0.0.0-20200124163924-50efa799b12f h1:ZlIUlB8x
 github.com/pepeunlimited/accounts v0.0.0-20200124163924-50efa799b12f/go.mod h1:4iUrzITHlFKQDRXutcthyVeLkLNysc/Olw8XU8PE4Gc=
 github.com/pepeunlimited/accounts v0.0.0-20200124173356-ac595a521707 h1:27UW7DkwwQpbl8K/Wqa6e+ao8C+3ZTC9RqTuPQbMO8k=
 github.com/pepeunlimited/accounts v0.0.0-20200124173356-ac595a521707/go.mod h1:4iUrzITHlFKQDRXutcthyVeLkLNysc/Olw8XU8PE4Gc=
+github.com/pepeunlimited/accounts v0.0.0-20200126093334-4ac5a7f930c7 h1:AF+MZcryk60MyDkNoqE74e+OZdFMv4bI4FI38yNBjTk=
+github.com/pepeunlimited/accounts v0.0.0-20200126093334-4ac5a7f930c7/go.mod h1:BS53zQG1cH3KxVkFuInQ0Evdi8/V/hE5pZbNTx9qmVs=
 github.com/pepeunlimited/microservice-kit v0.0.0-20191210170159-5cadda36c9a8 h1:T8U7hpS02+SOPDmUEzablGoevxHKKAcJ9mKDGxrzcx4=
 github.com/pepeunlimited/microservice-kit v0.0.0-20191210170159-5cadda36c9a8/go.mod h1:40wd+99+zSd3O9hZFhhwzJXYhWpTTmfAofTTiXX6DCg=
 github.com/pepeunlimited/microservice-kit v0.0.0-20191212102325-e83f82f36d67 h1:botFtZhSBFTO/KmUkNjDu1YnQSy9xUCO3RtVLhSAr8I=
@@ -81,6 +83,8 @@ github.com/pepeunlimited/microservice-kit v0.0.0-20200101194341-7d7834523c0e h1:
 github.com/pepeunlimited/microservice-kit v0.0.0-20200101194341-7d7834523c0e/go.mod h1:ioKXg9wp47PIRCa8isEhMhCtMJT8PDv85G8x0pPadSg=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200104135345-a4c82c1180ef h1:TSx5pbfZ3p62PyHxXG0hBPNrUrakqBn46epd59RjjCc=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200104135345-a4c82c1180ef/go.mod h1:ioKXg9wp47PIRCa8isEhMhCtMJT8PDv85G8x0pPadSg=
+github.com/pepeunlimited/microservice-kit v0.0.0-20200126083236-98e28bb35221 h1:gEekcNdow53x5vz2Hy4Q6EQ0yCkwZ+xKwdKdql5nESU=
+github.com/pepeunlimited/microservice-kit v0.0.0-20200126083236-98e28bb35221/go.mod h1:ioKXg9wp47PIRCa8isEhMhCtMJT8PDv85G8x0pPadSg=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

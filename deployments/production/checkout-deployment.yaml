@@ -28,7 +28,7 @@ spec:
               value: root
             - name: MYSQL_USER
               value: root
-          image: pepeunlimited/checkout:0.1.3
+          image: pepeunlimited/checkout:0.1.4
           name: checkout
           ports:
             - containerPort: 8080
