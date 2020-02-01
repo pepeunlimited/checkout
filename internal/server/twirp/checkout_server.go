@@ -1,17 +1,20 @@
-package server
+package twirp
 
 import (
 	"context"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	"github.com/google/uuid"
-	"github.com/pepeunlimited/accounts/accountsrpc"
-	"github.com/pepeunlimited/checkout/checkoutrpc"
-	"github.com/pepeunlimited/checkout/internal/app/app1/validator"
+	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
+	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
+	"github.com/pepeunlimited/checkout/internal/server/validator"
+	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
+	"log"
 )
 
 type CheckoutServer struct {
 	validator validator.CheckoutServerValidator
-	accounts accountsrpc.AccountService
+	accounts  accountsrpc.AccountService
+	iap       applerpc.AppleIAPService
 }
 
 func (server CheckoutServer) CreateGiftVoucherOrder(ctx context.Context, params *checkoutrpc.CreateGiftVoucherOrderParams) (*checkoutrpc.Checkout, error) {
@@ -19,9 +22,6 @@ func (server CheckoutServer) CreateGiftVoucherOrder(ctx context.Context, params 
 	if err != nil {
 		return nil, err
 	}
-
-
-
 	return &checkoutrpc.Checkout{}, nil
 }
 
@@ -31,10 +31,16 @@ func (server CheckoutServer) CreateAppleIAP(ctx context.Context, params *checkou
 		return nil, err
 	}
 	// execute validation for the IAP from AppleStore
+	receipt, err := server.iap.VerifyReceipt(ctx, &applerpc.VerifyReceiptParams{
+		Receipt: params.IapReceipt,
+	})
+	if err != nil {
+		//iap validation failed => abort
+		return nil, err
+	}
 
-	// if OK
-	// else return error
 
+	log.Print(receipt.AppleProductId)
 	// => GetProductByID(productId)
 	// params.ProductId
 
@@ -67,9 +73,10 @@ func (server CheckoutServer) CreateAppleIAP(ctx context.Context, params *checkou
 	return &checkoutrpc.Checkout{}, nil
 }
 
-func NewCheckoutServer(accounts accountsrpc.AccountService) CheckoutServer {
+func NewCheckoutServer(accounts accountsrpc.AccountService, iap applerpc.AppleIAPService) CheckoutServer {
 	return CheckoutServer {
-		validator: 	validator.NewCheckoutServerValidator(),
-		accounts: 	accounts,
+		validator: validator.NewCheckoutServerValidator(),
+		iap:       iap,
+		accounts:  accounts,
 	}
 }

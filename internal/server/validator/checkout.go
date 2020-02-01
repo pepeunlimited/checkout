@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"github.com/pepeunlimited/checkout/checkoutrpc"
+	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
 	"github.com/pepeunlimited/microservice-kit/validator"
 	"github.com/twitchtv/twirp"
 )

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/pepeunlimited/accounts/accountsrpc"
-	"github.com/pepeunlimited/checkout/internal/app/app1/server"
-	"github.com/pepeunlimited/checkout/checkoutrpc"
+	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
+	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
+	"github.com/pepeunlimited/checkout/internal/server/twirp"
+	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
 	"github.com/pepeunlimited/microservice-kit/middleware"
 	"github.com/pepeunlimited/microservice-kit/misc"
 	"log"
@@ -18,8 +19,9 @@ func main() {
 	log.Printf("Starting the CheckoutServer... version=[%v]", Version)
 
 	accounts := accountsrpc.NewAccountServiceProtobufClient(misc.GetEnv(accountsrpc.RpcAccountsHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
+	appleiap := applerpc.NewAppleIAPServiceProtobufClient(misc.GetEnv(applerpc.RpcAppleIapHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
 
-	cs := checkoutrpc.NewCheckoutServiceServer(server.NewCheckoutServer(accounts), nil)
+	cs := checkoutrpc.NewCheckoutServiceServer(twirp.NewCheckoutServer(accounts, appleiap), nil)
 
 	mux := http.NewServeMux()
 	mux.Handle(cs.PathPrefix(), middleware.Adapt(cs))
