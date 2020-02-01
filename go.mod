@@ -3,6 +3,7 @@ module github.com/pepeunlimited/checkout
 go 1.13
 
 require (
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/golang/protobuf v1.3.2
 	github.com/google/uuid v1.1.1
 	github.com/pepeunlimited/accounts v0.0.0-20200131233509-508343de12c5

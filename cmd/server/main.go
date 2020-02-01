@@ -15,9 +15,12 @@ const (
 	Version = "0.1.4"
 )
 
-func main() {
-	log.Printf("Starting the CheckoutServer... version=[%v]", Version)
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
 
+func main() {
+	log.Printf("Starting the AppleIAPServer... version=[%v]", Version)
 	accounts := accountsrpc.NewAccountServiceProtobufClient(misc.GetEnv(accountsrpc.RpcAccountsHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
 	appleiap := applerpc.NewAppleIAPServiceProtobufClient(misc.GetEnv(applerpc.RpcAppleIapHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
 

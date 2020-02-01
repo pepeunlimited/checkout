@@ -16,6 +16,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: RPC_APPLE_IAP_HOST
+              value: apple-iap
             - name: RPC_ACCOUNTS_HOST
               value: accounts
             - name: MYSQL_DATABASE
@@ -28,7 +30,7 @@ spec:
               value: root
             - name: MYSQL_USER
               value: root
-          image: pepeunlimited/checkout:0.1.4-1-ged118b6
+          image: pepeunlimited/checkout:0.1.4-2-gbf529db
           name: checkout
           ports:
             - containerPort: 8080

@@ -35,11 +35,9 @@ func (server CheckoutServer) CreateAppleIAP(ctx context.Context, params *checkou
 		Receipt: params.IapReceipt,
 	})
 	if err != nil {
-		//iap validation failed => abort
+		log.Printf("iap validation failed: "+err.Error())
 		return nil, err
 	}
-
-
 	log.Print(receipt.AppleProductId)
 	// => GetProductByID(productId)
 	// params.ProductId
@@ -62,6 +60,7 @@ func (server CheckoutServer) CreateAppleIAP(ctx context.Context, params *checkou
 		ReferenceNumber: &wrappers.StringValue{Value: referenceNumber},
 	})
 	if err != nil {
+		log.Print("deposit failed: "+err.Error())
 		return nil, err
 	}
 
