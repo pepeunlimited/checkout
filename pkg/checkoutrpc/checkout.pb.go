@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	_ "github.com/golang/protobuf/ptypes/empty"
-	_ "github.com/golang/protobuf/ptypes/wrappers"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	math "math"
 )
 
@@ -22,114 +22,138 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type CreateGiftVoucherOrderParams struct {
-	ProductId            int64    `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	UserId               int64    `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	GiftVoucherId        string   `protobuf:"bytes,3,opt,name=gift_voucher_id,json=giftVoucherId,proto3" json:"gift_voucher_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type CreateCheckoutParams struct {
+	PaymentInstrumentId   *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=payment_instrument_id,json=paymentInstrumentId,proto3" json:"payment_instrument_id,omitempty"`
+	PaymentInstrumentType *wrappers.StringValue `protobuf:"bytes,2,opt,name=payment_instrument_type,json=paymentInstrumentType,proto3" json:"payment_instrument_type,omitempty"`
+	UserId                int64                 `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProductId             int64                 `protobuf:"varint,4,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	XXX_NoUnkeyedLiteral  struct{}              `json:"-"`
+	XXX_unrecognized      []byte                `json:"-"`
+	XXX_sizecache         int32                 `json:"-"`
 }
 
-func (m *CreateGiftVoucherOrderParams) Reset()         { *m = CreateGiftVoucherOrderParams{} }
-func (m *CreateGiftVoucherOrderParams) String() string { return proto.CompactTextString(m) }
-func (*CreateGiftVoucherOrderParams) ProtoMessage()    {}
-func (*CreateGiftVoucherOrderParams) Descriptor() ([]byte, []int) {
+func (m *CreateCheckoutParams) Reset()         { *m = CreateCheckoutParams{} }
+func (m *CreateCheckoutParams) String() string { return proto.CompactTextString(m) }
+func (*CreateCheckoutParams) ProtoMessage()    {}
+func (*CreateCheckoutParams) Descriptor() ([]byte, []int) {
 	return fileDescriptor_a95bdbc7e39fe4fd, []int{0}
 }
 
-func (m *CreateGiftVoucherOrderParams) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateGiftVoucherOrderParams.Unmarshal(m, b)
+func (m *CreateCheckoutParams) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateCheckoutParams.Unmarshal(m, b)
 }
-func (m *CreateGiftVoucherOrderParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateGiftVoucherOrderParams.Marshal(b, m, deterministic)
+func (m *CreateCheckoutParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateCheckoutParams.Marshal(b, m, deterministic)
 }
-func (m *CreateGiftVoucherOrderParams) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateGiftVoucherOrderParams.Merge(m, src)
+func (m *CreateCheckoutParams) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateCheckoutParams.Merge(m, src)
 }
-func (m *CreateGiftVoucherOrderParams) XXX_Size() int {
-	return xxx_messageInfo_CreateGiftVoucherOrderParams.Size(m)
+func (m *CreateCheckoutParams) XXX_Size() int {
+	return xxx_messageInfo_CreateCheckoutParams.Size(m)
 }
-func (m *CreateGiftVoucherOrderParams) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateGiftVoucherOrderParams.DiscardUnknown(m)
+func (m *CreateCheckoutParams) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateCheckoutParams.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateGiftVoucherOrderParams proto.InternalMessageInfo
+var xxx_messageInfo_CreateCheckoutParams proto.InternalMessageInfo
 
-func (m *CreateGiftVoucherOrderParams) GetProductId() int64 {
+func (m *CreateCheckoutParams) GetPaymentInstrumentId() *wrappers.UInt32Value {
 	if m != nil {
-		return m.ProductId
+		return m.PaymentInstrumentId
 	}
-	return 0
+	return nil
 }
 
-func (m *CreateGiftVoucherOrderParams) GetUserId() int64 {
+func (m *CreateCheckoutParams) GetPaymentInstrumentType() *wrappers.StringValue {
+	if m != nil {
+		return m.PaymentInstrumentType
+	}
+	return nil
+}
+
+func (m *CreateCheckoutParams) GetUserId() int64 {
 	if m != nil {
 		return m.UserId
 	}
 	return 0
 }
 
-func (m *CreateGiftVoucherOrderParams) GetGiftVoucherId() string {
+func (m *CreateCheckoutParams) GetProductId() int64 {
 	if m != nil {
-		return m.GiftVoucherId
+		return m.ProductId
 	}
-	return ""
+	return 0
 }
 
-type CreateAppleIAPParams struct {
-	IapReceipt           string   `protobuf:"bytes,1,opt,name=iap_receipt,json=iapReceipt,proto3" json:"iap_receipt,omitempty"`
-	UserId               int64    `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ProductId            int64    `protobuf:"varint,3,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type CreateSubscriptionParams struct {
+	PaymentInstrumentId   *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=payment_instrument_id,json=paymentInstrumentId,proto3" json:"payment_instrument_id,omitempty"`
+	PaymentInstrumentType *wrappers.StringValue `protobuf:"bytes,2,opt,name=payment_instrument_type,json=paymentInstrumentType,proto3" json:"payment_instrument_type,omitempty"`
+	UserId                int64                 `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProductId             int64                 `protobuf:"varint,4,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	UseTrial              bool                  `protobuf:"varint,5,opt,name=use_trial,json=useTrial,proto3" json:"use_trial,omitempty"`
+	XXX_NoUnkeyedLiteral  struct{}              `json:"-"`
+	XXX_unrecognized      []byte                `json:"-"`
+	XXX_sizecache         int32                 `json:"-"`
 }
 
-func (m *CreateAppleIAPParams) Reset()         { *m = CreateAppleIAPParams{} }
-func (m *CreateAppleIAPParams) String() string { return proto.CompactTextString(m) }
-func (*CreateAppleIAPParams) ProtoMessage()    {}
-func (*CreateAppleIAPParams) Descriptor() ([]byte, []int) {
+func (m *CreateSubscriptionParams) Reset()         { *m = CreateSubscriptionParams{} }
+func (m *CreateSubscriptionParams) String() string { return proto.CompactTextString(m) }
+func (*CreateSubscriptionParams) ProtoMessage()    {}
+func (*CreateSubscriptionParams) Descriptor() ([]byte, []int) {
 	return fileDescriptor_a95bdbc7e39fe4fd, []int{1}
 }
 
-func (m *CreateAppleIAPParams) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateAppleIAPParams.Unmarshal(m, b)
+func (m *CreateSubscriptionParams) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateSubscriptionParams.Unmarshal(m, b)
 }
-func (m *CreateAppleIAPParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateAppleIAPParams.Marshal(b, m, deterministic)
+func (m *CreateSubscriptionParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateSubscriptionParams.Marshal(b, m, deterministic)
 }
-func (m *CreateAppleIAPParams) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateAppleIAPParams.Merge(m, src)
+func (m *CreateSubscriptionParams) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateSubscriptionParams.Merge(m, src)
 }
-func (m *CreateAppleIAPParams) XXX_Size() int {
-	return xxx_messageInfo_CreateAppleIAPParams.Size(m)
+func (m *CreateSubscriptionParams) XXX_Size() int {
+	return xxx_messageInfo_CreateSubscriptionParams.Size(m)
 }
-func (m *CreateAppleIAPParams) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateAppleIAPParams.DiscardUnknown(m)
+func (m *CreateSubscriptionParams) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateSubscriptionParams.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateAppleIAPParams proto.InternalMessageInfo
+var xxx_messageInfo_CreateSubscriptionParams proto.InternalMessageInfo
 
-func (m *CreateAppleIAPParams) GetIapReceipt() string {
+func (m *CreateSubscriptionParams) GetPaymentInstrumentId() *wrappers.UInt32Value {
 	if m != nil {
-		return m.IapReceipt
+		return m.PaymentInstrumentId
 	}
-	return ""
+	return nil
 }
 
-func (m *CreateAppleIAPParams) GetUserId() int64 {
+func (m *CreateSubscriptionParams) GetPaymentInstrumentType() *wrappers.StringValue {
+	if m != nil {
+		return m.PaymentInstrumentType
+	}
+	return nil
+}
+
+func (m *CreateSubscriptionParams) GetUserId() int64 {
 	if m != nil {
 		return m.UserId
 	}
 	return 0
 }
 
-func (m *CreateAppleIAPParams) GetProductId() int64 {
+func (m *CreateSubscriptionParams) GetProductId() int64 {
 	if m != nil {
 		return m.ProductId
 	}
 	return 0
+}
+
+func (m *CreateSubscriptionParams) GetUseTrial() bool {
+	if m != nil {
+		return m.UseTrial
+	}
+	return false
 }
 
 type Checkout struct {
@@ -164,33 +188,35 @@ func (m *Checkout) XXX_DiscardUnknown() {
 var xxx_messageInfo_Checkout proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*CreateGiftVoucherOrderParams)(nil), "pepeunlimited.checkout.CreateGiftVoucherOrderParams")
-	proto.RegisterType((*CreateAppleIAPParams)(nil), "pepeunlimited.checkout.CreateAppleIAPParams")
+	proto.RegisterType((*CreateCheckoutParams)(nil), "pepeunlimited.checkout.CreateCheckoutParams")
+	proto.RegisterType((*CreateSubscriptionParams)(nil), "pepeunlimited.checkout.CreateSubscriptionParams")
 	proto.RegisterType((*Checkout)(nil), "pepeunlimited.checkout.Checkout")
 }
 
 func init() { proto.RegisterFile("checkout.proto", fileDescriptor_a95bdbc7e39fe4fd) }
 
 var fileDescriptor_a95bdbc7e39fe4fd = []byte{
-	// 306 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x91, 0xcf, 0x4e, 0x02, 0x31,
-	0x10, 0xc6, 0xb3, 0x92, 0xa0, 0x0c, 0x01, 0x92, 0xc6, 0xa0, 0xc1, 0x7f, 0x84, 0x83, 0xe1, 0x60,
-	0x96, 0x44, 0x7d, 0x01, 0xe4, 0x60, 0xf6, 0x24, 0x59, 0x13, 0x0f, 0x5e, 0xb0, 0xb4, 0xc3, 0xd2,
-	0x08, 0x76, 0x32, 0xb4, 0x18, 0x2f, 0xbe, 0xad, 0xef, 0x61, 0xd8, 0x5d, 0x62, 0x96, 0x00, 0xde,
-	0x3a, 0xdf, 0x37, 0xd3, 0xdf, 0xe4, 0x1b, 0xa8, 0xab, 0x29, 0xaa, 0x77, 0xeb, 0x5d, 0x48, 0x6c,
-	0x9d, 0x15, 0x4d, 0x42, 0x42, 0xff, 0x31, 0x33, 0x73, 0xe3, 0x50, 0x87, 0x6b, 0xb7, 0x75, 0x96,
-	0x58, 0x9b, 0xcc, 0xb0, 0x97, 0x76, 0x8d, 0xfd, 0xa4, 0x87, 0x73, 0x72, 0x5f, 0xd9, 0x50, 0xeb,
-	0x72, 0xd3, 0xfc, 0x64, 0x49, 0x84, 0xbc, 0xc8, 0xfc, 0xce, 0x37, 0x9c, 0x0f, 0x18, 0xa5, 0xc3,
-	0x47, 0x33, 0x71, 0x2f, 0xd6, 0xab, 0x29, 0xf2, 0x13, 0x6b, 0xe4, 0xa1, 0x64, 0x39, 0x5f, 0x88,
-	0x0b, 0x00, 0x62, 0xab, 0xbd, 0x72, 0x23, 0xa3, 0x4f, 0x83, 0x76, 0xd0, 0x2d, 0xc5, 0x95, 0x5c,
-	0x89, 0xb4, 0x38, 0x81, 0x43, 0xbf, 0x40, 0x5e, 0x79, 0x07, 0xa9, 0x57, 0x5e, 0x95, 0x91, 0x16,
-	0xd7, 0xd0, 0x48, 0xcc, 0xc4, 0x8d, 0x96, 0xd9, 0x97, 0xab, 0x86, 0x52, 0x3b, 0xe8, 0x56, 0xe2,
-	0x5a, 0xf2, 0x07, 0x8a, 0x74, 0xc7, 0xc2, 0x71, 0xc6, 0xef, 0x13, 0xcd, 0x30, 0xea, 0x0f, 0x73,
-	0xee, 0x15, 0x54, 0x8d, 0xa4, 0x11, 0xa3, 0x42, 0x43, 0x2e, 0x05, 0x57, 0x62, 0x30, 0x92, 0xe2,
-	0x4c, 0xd9, 0x4d, 0x2e, 0x6e, 0x5c, 0xda, 0xd8, 0xb8, 0x03, 0x70, 0x34, 0xc8, 0x93, 0xbb, 0xfd,
-	0x09, 0xa0, 0xb1, 0x2e, 0x9e, 0x91, 0x97, 0x46, 0xa1, 0x20, 0x68, 0x6e, 0x0f, 0x44, 0xdc, 0x87,
-	0xdb, 0x0f, 0x10, 0xee, 0x0b, 0xb0, 0xd5, 0xde, 0x39, 0x95, 0x3f, 0xc4, 0x1b, 0xd4, 0x8b, 0x11,
-	0x88, 0x9b, 0xfd, 0xa4, 0x62, 0x54, 0xff, 0x13, 0x1e, 0x6a, 0xaf, 0xd5, 0xb5, 0xc8, 0xa4, 0xc6,
-	0xe5, 0xf4, 0xf4, 0x77, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xfa, 0x10, 0x02, 0x44, 0x61, 0x02,
-	0x00, 0x00,
+	// 345 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x92, 0xcf, 0x4e, 0xc2, 0x40,
+	0x10, 0xc6, 0x53, 0x50, 0x84, 0x21, 0x62, 0xb2, 0x8a, 0x34, 0xa0, 0xa6, 0xe1, 0xc4, 0xc1, 0x2c,
+	0x06, 0xde, 0x40, 0x4e, 0xbd, 0x11, 0x40, 0x0f, 0x5e, 0x70, 0x69, 0x47, 0xd8, 0xd8, 0x76, 0x37,
+	0xfb, 0x47, 0xd3, 0x27, 0xf1, 0xe9, 0x7c, 0x0d, 0xcf, 0x86, 0x96, 0x9a, 0x28, 0xa0, 0x0f, 0xe0,
+	0xad, 0xb3, 0xdf, 0xcc, 0x6f, 0x66, 0x3a, 0x1f, 0x34, 0x82, 0x15, 0x06, 0xcf, 0xc2, 0x1a, 0x2a,
+	0x95, 0x30, 0x82, 0x9c, 0x4b, 0x94, 0x68, 0x93, 0x88, 0xc7, 0xdc, 0x60, 0x48, 0x0b, 0xb5, 0xdd,
+	0x59, 0x0a, 0xb1, 0x8c, 0xb0, 0x9f, 0x65, 0x2d, 0xec, 0x53, 0x1f, 0x63, 0x69, 0xd2, 0xbc, 0xa8,
+	0x7d, 0xf5, 0x53, 0x7c, 0x55, 0x4c, 0x4a, 0x54, 0x3a, 0xd7, 0xbb, 0x1f, 0x0e, 0x9c, 0x8d, 0x14,
+	0x32, 0x83, 0xa3, 0x0d, 0x6f, 0xcc, 0x14, 0x8b, 0x35, 0x19, 0x43, 0x53, 0xb2, 0x34, 0xc6, 0xc4,
+	0xcc, 0x79, 0xa2, 0x8d, 0xb2, 0xf9, 0x67, 0xe8, 0x3a, 0x9e, 0xd3, 0xab, 0x0f, 0x2e, 0x68, 0x0e,
+	0xa6, 0x05, 0x98, 0xde, 0xf9, 0x89, 0x19, 0x0e, 0xee, 0x59, 0x64, 0x71, 0x72, 0xba, 0x29, 0xf5,
+	0xbf, 0x2a, 0xfd, 0x90, 0xcc, 0xa0, 0xb5, 0x83, 0x68, 0x52, 0x89, 0x6e, 0x69, 0x0f, 0x73, 0x6a,
+	0x14, 0x4f, 0x96, 0x39, 0xb3, 0xb9, 0xc5, 0x9c, 0xa5, 0x12, 0x49, 0x0b, 0x8e, 0xac, 0x46, 0xb5,
+	0x9e, 0xac, 0xec, 0x39, 0xbd, 0xf2, 0xa4, 0xb2, 0x0e, 0xfd, 0x90, 0x5c, 0x02, 0x48, 0x25, 0x42,
+	0x1b, 0x64, 0x53, 0x1f, 0x64, 0x5a, 0x6d, 0xf3, 0xe2, 0x87, 0xdd, 0xb7, 0x12, 0xb8, 0xf9, 0xe2,
+	0x53, 0xbb, 0xd0, 0x81, 0xe2, 0xd2, 0x70, 0x91, 0xfc, 0x8f, 0xe5, 0x49, 0x07, 0x6a, 0x56, 0xe3,
+	0xdc, 0x28, 0xce, 0x22, 0xf7, 0xd0, 0x73, 0x7a, 0xd5, 0x49, 0xd5, 0x6a, 0x9c, 0xad, 0xe3, 0x2e,
+	0x40, 0xb5, 0xf0, 0xc2, 0xe0, 0xdd, 0x81, 0x93, 0x22, 0x98, 0xa2, 0x7a, 0xe1, 0x01, 0x92, 0x47,
+	0x68, 0x7c, 0x77, 0x0c, 0xb9, 0xa6, 0xbb, 0xad, 0x49, 0x77, 0x39, 0xab, 0xed, 0xed, 0xcd, 0x2e,
+	0x78, 0x2b, 0x20, 0xdb, 0xa7, 0x21, 0x37, 0xbf, 0x77, 0xd9, 0x3e, 0xe3, 0xdf, 0x9d, 0x6e, 0x8f,
+	0x1f, 0xea, 0xc5, 0xa3, 0x92, 0xc1, 0xa2, 0x92, 0xfd, 0xfc, 0xe1, 0x67, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0x5d, 0xc0, 0x6f, 0xcc, 0x7b, 0x03, 0x00, 0x00,
 }
