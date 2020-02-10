@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
 	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
+	"github.com/pepeunlimited/billing/pkg/orderrpc"
+	"github.com/pepeunlimited/billing/pkg/paymentrpc"
 	"github.com/pepeunlimited/checkout/internal/server/twirp"
 	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
 	"github.com/pepeunlimited/microservice-kit/middleware"
@@ -20,11 +22,19 @@ func init() {
 }
 
 func main() {
-	log.Printf("Starting the AppleIAPServer... version=[%v]", Version)
-	accounts := accountsrpc.NewAccountServiceProtobufClient(misc.GetEnv(accountsrpc.RpcAccountsHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
-	appleiap := applerpc.NewAppleIAPServiceProtobufClient(misc.GetEnv(applerpc.RpcAppleIapHost, "api.dev.pepeunlimited.com"), http.DefaultClient)
+	log.Printf("Starting the CheckoutServer... version=[%v]", Version)
 
-	cs := checkoutrpc.NewCheckoutServiceServer(twirp.NewCheckoutServer(accounts, appleiap), nil)
+	accountsAddress := misc.GetEnv(accountsrpc.RpcAccountsHost, "api.dev.pepeunlimited.com")
+	appleIAPAddress := misc.GetEnv(applerpc.RpcAppleIapHost, "api.dev.pepeunlimited.com")
+	paymentAddress  := misc.GetEnv(paymentrpc.RpcPaymentHost, "api.dev.pepeunlimited.com")
+	orderAddress    := misc.GetEnv(orderrpc.RpcOrderHost, "api.dev.pepeunlimited.com")
+
+	accounts := accountsrpc.NewAccountServiceProtobufClient(accountsAddress, http.DefaultClient)
+	appleiap := applerpc.NewAppleIAPServiceProtobufClient(appleIAPAddress, http.DefaultClient)
+	payments := paymentrpc.NewPaymentServiceProtobufClient(paymentAddress, http.DefaultClient)
+	orders   := orderrpc.NewOrderServiceProtobufClient(orderAddress, http.DefaultClient)
+
+	cs := checkoutrpc.NewCheckoutServiceServer(twirp.NewCheckoutServer(accounts, appleiap, orders, payments), nil)
 
 	mux := http.NewServeMux()
 	mux.Handle(cs.PathPrefix(), middleware.Adapt(cs))

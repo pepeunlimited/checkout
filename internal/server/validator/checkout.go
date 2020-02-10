@@ -2,31 +2,30 @@ package validator
 
 import (
 	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
-	"github.com/pepeunlimited/microservice-kit/validator"
 	"github.com/twitchtv/twirp"
 )
 
 type CheckoutServerValidator struct {}
 
-func (v CheckoutServerValidator) CreateGiftVoucherOrder(params *checkoutrpc.CreateGiftVoucherOrderParams) error {
-	if params.UserId == 0 {
-		return twirp.RequiredArgumentError("user_id")
-	}
-	if params.ProductId == 0 {
-		return twirp.RequiredArgumentError("product_id")
-	}
-	if validator.IsEmpty(params.GiftVoucherId) {
-		return twirp.RequiredArgumentError("gift_voucher_id")
-	}
-	return nil
-}
+//func (v CheckoutServerValidator) CreateGiftVoucherOrder(params *checkoutrpc.CreateGiftVoucherOrderParams) error {
+//	if params.UserId == 0 {
+//		return twirp.RequiredArgumentError("user_id")
+//	}
+//	if params.ProductId == 0 {
+//		return twirp.RequiredArgumentError("product_id")
+//	}
+//	if validator.IsEmpty(params.GiftVoucherId) {
+//		return twirp.RequiredArgumentError("gift_voucher_id")
+//	}
+//	return nil
+//}
 
-func (v CheckoutServerValidator) CreateAppleIAP(params *checkoutrpc.CreateAppleIAPParams) error {
+func (v CheckoutServerValidator) CreateCheckout(params *checkoutrpc.CreateCheckoutParams) error {
 	if params.UserId == 0 {
 		return twirp.RequiredArgumentError("user_id")
 	}
-	if validator.IsEmpty(params.IapReceipt) {
-		return twirp.RequiredArgumentError("iap_receipt")
+	if params.PaymentInstrumentId == 0 {
+		return twirp.RequiredArgumentError("payment_instrument_id")
 	}
 	if params.ProductId == 0 {
 		return twirp.RequiredArgumentError("product_id")
@@ -37,4 +36,3 @@ func (v CheckoutServerValidator) CreateAppleIAP(params *checkoutrpc.CreateAppleI
 func NewCheckoutServerValidator() CheckoutServerValidator {
 	return CheckoutServerValidator{}
 }
-

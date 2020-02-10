@@ -6,6 +6,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
 	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
+	"github.com/pepeunlimited/billing/pkg/orderrpc"
+	"github.com/pepeunlimited/billing/pkg/paymentrpc"
 	"github.com/pepeunlimited/checkout/internal/server/validator"
 	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
 	"github.com/twitchtv/twirp"
@@ -15,47 +17,58 @@ import (
 type CheckoutServer struct {
 	validator validator.CheckoutServerValidator
 	accounts  accountsrpc.AccountService
-	//billing
 	//products
+	orders 	  orderrpc.OrderService
+	payments  paymentrpc.PaymentService
 	iap       applerpc.AppleIAPService
 }
 
-func (server CheckoutServer) CreateSubscription(ctx context.Context, params *checkoutrpc.CreateSubscriptionParams) (*checkoutrpc.Checkout, error) {
-	product, err := server.products.GetProductById(params.ProductId)
-	if err != nil {
-		return nil, err
-	}
-	// is the product trialable?
-	if params.UseTrial {
-		// does the user has used it?
-		server.billing.startTrial()
-		return &checkoutrpc.Checkout{}, nil
-	}
-	// is the product subscribable?
-	// => mark to subscription
-	server.billing.startSubscription()
-	return &checkoutrpc.Checkout{}, nil
-}
+
+//func (server CheckoutServer) CreateSubscription(ctx context.Context, params *checkoutrpc.CreateSubscriptionParams) (*checkoutrpc.Checkout, error) {
+//	product, err := server.products.GetProductById(params.ProductId)
+//	if err != nil {
+//		return nil, err
+//	}
+//	is the product trialable?
+	//if params.UseTrial {
+	//	does the user has used it?
+		//server.billing.startTrial()
+		//return &checkoutrpc.Checkout{}, nil
+	//}
+	//is the product subscribable?
+	//=> mark to subscription
+	//server.billing.startSubscription()
+	//return &checkoutrpc.Checkout{}, nil
+//}
 
 func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkoutrpc.CreateCheckoutParams) (*checkoutrpc.Checkout, error) {
-	err := server.validator.CreateAppleIAP(params)
+	err := server.validator.CreateCheckout(params)
 	if err != nil {
 		return nil, err
 	}
-
-	isFree, err := server.isProductFree(params.ProductId)
+	order, err := server.orders.CreateOrder(ctx, &orderrpc.CreateOrderParams{
+		OrderItems: []*orderrpc.OrderItem{&orderrpc.OrderItem{PriceId:  params.UserId, Quantity: 1}},
+		UserId: params.UserId,
+	})
 	if err != nil {
-		log.Print("can't verify is the product set as free: "+err.Error())
 		return nil, err
 	}
-	if *isFree {
-		server.billing.createOrder(productId, userId)
-		return &checkoutrpc.Checkout{}, nil
+	//isFree, err := server.isProductFree(params.ProductId)
+	//if err != nil {
+	//	log.Print("can't verify is the product set as free: "+err.Error())
+	//	return nil, err
+	//}
+	//if *isFree {
+	//	server.billing.createOrder(productId, userId)
+	//	return &checkoutrpc.Checkout{}, nil
+	//}
+	paymentInstrument, err := server.payments.GetPaymentInstrument(ctx, &paymentrpc.GetPaymentInstrumentParams{Id: params.PaymentInstrumentId})
+	if err != nil {
+		return nil, err
 	}
-	//paymentInstrument, err := server.billing.GetPaymentInstrumentByID(params.PaymentInstrumentId)
-	switch paymentInstrument.Name() {
-	case "APPLE_IAP":
-		err := server.appleiap(ctx, params.PaymentInstrumentType, params.UserId, params.ProductId)
+	switch paymentInstrument.Type {
+	case "APPLE":
+		err := server.apple(ctx, "receipt", params.UserId, params.ProductId)
 		if err != nil {
 			return nil, err
 		}
@@ -63,19 +76,30 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 		//server.billing.validateGiftVoucher
 		//server.billing.useGiftVoucher
 	default:
-		log.Print("not supported payment instrument: "+paymentInstrument.Name())
+		log.Print("not supported payment instrument: "+paymentInstrument.Type)
 		return nil, twirp.NewError(twirp.Aborted, "not_supported_payment_instrument")
 	}
-	// => mark to the purchases
-	server.billing.createOrder(productId, userId)
-	return &checkoutrpc.Checkout{}, nil
+	// => mark to the order & payments
+	payment, err := server.payments.CreatePayment(ctx, &paymentrpc.CreatePaymentParams{
+		OrderId:             order.Order.Id,
+		PaymentInstrumentId: params.PaymentInstrumentId,
+		UserId:              params.UserId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &checkoutrpc.Checkout{
+		OrderId:             order.Order.Id,
+		PaymentId:           payment.Id,
+		PaymentInstrumentId: payment.PaymentInstrumentId,
+	}, nil
 }
 
 func (server CheckoutServer) isProductFree(productId int64) (*bool, error) {
 	return nil, nil
 }
 
-func (server CheckoutServer) appleiap(ctx context.Context, receipt string, userId int64, productId int64) error {
+func (server CheckoutServer) apple(ctx context.Context, receipt string, userId int64, productId int64) error {
 	// execute validation for the IAP from AppleStore
 	verified, err := server.iap.VerifyReceipt(ctx, &applerpc.VerifyReceiptParams{
 		Receipt: receipt,
@@ -84,17 +108,18 @@ func (server CheckoutServer) appleiap(ctx context.Context, receipt string, userI
 		log.Printf("iap validation failed: "+err.Error())
 		return err
 	}
-	product, err := server.products.GetProductByID(productId)
+	log.Print(verified)
+	//product, err := server.products.GetProductByID(productId)
 	// == LIST
-	switch product.Types {
-	case "LIST":
-		if verified.Type != applerpc.VerifyReceiptResponse_CONSUMABLE {
-			log.Printf("FATAL: wrong product type set to the apple iap! Should be CONSUMABLE receipt=%v, productId=%v",receipt, productId)
-		}
+	//switch product.Types {
+	//case "LIST":
+	//	if verified.Type != "CONSUMABLE" {
+	//		log.Printf("FATAL: wrong product type set to the apple iap! Should be CONSUMABLE receipt=%v, productId=%v",receipt, productId)
+		//}
 		//price, err := server.prices.GetProductPriceByID(productId)
-		if err != nil {
-			return err
-		}
+		//if err != nil {
+		//	return err
+		//}
 		// fromAmount :=      => ProductPrice
 		// toUserID   :=      => how 'owns' the product
 		// toAmount   :=
@@ -112,14 +137,19 @@ func (server CheckoutServer) appleiap(ctx context.Context, receipt string, userI
 			log.Print("deposit failed: "+err.Error())
 			return err
 		}
-	}
+	//}
 	return nil
 }
 
-func NewCheckoutServer(accounts accountsrpc.AccountService, iap applerpc.AppleIAPService) CheckoutServer {
+func NewCheckoutServer(accounts accountsrpc.AccountService,
+	iap applerpc.AppleIAPService,
+	orders orderrpc.OrderService,
+	payments paymentrpc.PaymentService) CheckoutServer {
 	return CheckoutServer {
-		validator: validator.NewCheckoutServerValidator(),
-		iap:       iap,
-		accounts:  accounts,
+		validator: 	validator.NewCheckoutServerValidator(),
+		iap:       	iap,
+		accounts:  	accounts,
+		payments:	payments,
+		orders:		orders,
 	}
 }

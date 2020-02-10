@@ -11,23 +11,16 @@ import "google/protobuf/wrappers.proto";
 service CheckoutService {
     // make a checkout using selected payment instrument
     rpc CreateCheckout(CreateCheckoutParams)           returns (Checkout);
-
-    rpc CreateSubscription(CreateSubscriptionParams)   returns (Checkout);
 }
 
 message CreateCheckoutParams {
-    google.protobuf.UInt32Value payment_instrument_id     = 1; // uint8
-    google.protobuf.StringValue payment_instrument_type   = 2; // type of payment instrument such as creditCard, receipt or giftVoucherToken.
+    uint32 payment_instrument_id                          = 1; // uint8
     int64 user_id                                         = 3; // required
     int64 product_id                                      = 4; // required
 }
 
-message CreateSubscriptionParams {
-    google.protobuf.UInt32Value payment_instrument_id     = 1; // uint8
-    google.protobuf.StringValue payment_instrument_type   = 2; // type of payment instrument such as creditCard, receipt or giftVoucherToken.
-    int64 user_id                                         = 3; // required
-    int64 product_id                                      = 4; // productId => which have some short of subscription or trial period
-    bool  use_trial                                       = 5;
+message Checkout {
+    int64 order_id                  = 1;
+    int64 payment_id                = 2;
+    uint32 payment_instrument_id    = 3;
 }
-
-message Checkout {}
