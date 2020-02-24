@@ -2,11 +2,11 @@ package twirp
 
 import (
 	"context"
-	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
-	"github.com/pepeunlimited/apple-iap/pkg/appleiap"
-	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
-	"github.com/pepeunlimited/billing/pkg/orderrpc"
-	"github.com/pepeunlimited/billing/pkg/paymentrpc"
+	"github.com/pepeunlimited/apple-iap/pkg/appstore"
+	"github.com/pepeunlimited/apple-iap/pkg/rpc/appleiap"
+	"github.com/pepeunlimited/billing/pkg/rpc/order"
+	"github.com/pepeunlimited/billing/pkg/rpc/payment"
+	"github.com/pepeunlimited/accounts/pkg/rpc/account"
 	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/pepeunlimited/products/pkg/rpc/price"
 	"github.com/pepeunlimited/products/pkg/rpc/product"
@@ -16,12 +16,13 @@ import (
 
 func TestCheckoutServer_CreateCheckout(t *testing.T) {
 	ctx := context.TODO()
-	account := accountsrpc.NewAccountsMock(nil, nil)
+	account := account.NewAccountsMock(nil, nil)
 
 	//appleiap := applerpc.NewAppleIAPMock(appleiap.NewAppStoreMock([]int{200}))
-	appleiap := applerpc.NewAppleIAPMock(appleiap.NewAppStoreMock([]int{0}))
-	payments := paymentrpc.NewPaymentServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
-	orders 	 := orderrpc.NewOrderServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
+
+	appleiap := appleiap.NewAppleIAPMock(appstore.NewAppStoreMock([]int{0}))
+	payments := payment.NewPaymentServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
+	orders 	 := order.NewOrderServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
 	products := product.NewProductServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
 	prices   := price.NewPriceServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
 

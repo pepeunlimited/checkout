@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
-	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
-	"github.com/pepeunlimited/billing/pkg/orderrpc"
-	"github.com/pepeunlimited/billing/pkg/paymentrpc"
+	"github.com/pepeunlimited/accounts/pkg/rpc/account"
+	"github.com/pepeunlimited/apple-iap/pkg/rpc/appleiap"
+	"github.com/pepeunlimited/billing/pkg/rpc/order"
+	"github.com/pepeunlimited/billing/pkg/rpc/payment"
 	"github.com/pepeunlimited/checkout/internal/server/twirp"
 	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/pepeunlimited/microservice-kit/middleware"
@@ -26,17 +26,17 @@ func init() {
 func main() {
 	log.Printf("Starting the CheckoutServer... version=[%v]", Version)
 
-	accountsAddress := misc.GetEnv(accountsrpc.RpcAccountsHost, "api.dev.pepeunlimited.com")
-	appleIAPAddress := misc.GetEnv(applerpc.RpcAppleIapHost, "api.dev.pepeunlimited.com")
-	paymentAddress  := misc.GetEnv(paymentrpc.RpcPaymentHost, "api.dev.pepeunlimited.com")
-	orderAddress    := misc.GetEnv(orderrpc.RpcOrderHost, "api.dev.pepeunlimited.com")
+	accountsAddress := misc.GetEnv(account.RpcAccountsHost, "api.dev.pepeunlimited.com")
+	appleIAPAddress := misc.GetEnv(appleiap.RpcAppleIapHost, "api.dev.pepeunlimited.com")
+	paymentAddress  := misc.GetEnv(payment.RpcPaymentHost, "api.dev.pepeunlimited.com")
+	orderAddress    := misc.GetEnv(order.RpcOrderHost, "api.dev.pepeunlimited.com")
 	productsAddress := misc.GetEnv(product.RpcProductHost, "api.dev.pepeunlimited.com")
 	pricesAddress   := misc.GetEnv(price.RpcPriceHost, "api.dev.pepeunlimited.com")
 
-	accounts := accountsrpc.NewAccountServiceProtobufClient(accountsAddress, http.DefaultClient)
-	appleiap := applerpc.NewAppleIAPServiceProtobufClient(appleIAPAddress, http.DefaultClient)
-	payments := paymentrpc.NewPaymentServiceProtobufClient(paymentAddress, http.DefaultClient)
-	orders   := orderrpc.NewOrderServiceProtobufClient(orderAddress, http.DefaultClient)
+	accounts := account.NewAccountServiceProtobufClient(accountsAddress, http.DefaultClient)
+	appleiap := appleiap.NewAppleIAPServiceProtobufClient(appleIAPAddress, http.DefaultClient)
+	payments := payment.NewPaymentServiceProtobufClient(paymentAddress, http.DefaultClient)
+	orders   := order.NewOrderServiceProtobufClient(orderAddress, http.DefaultClient)
 	products := product.NewProductServiceProtobufClient(productsAddress, http.DefaultClient)
 	prices   := price.NewPriceServiceProtobufClient(pricesAddress, http.DefaultClient)
 

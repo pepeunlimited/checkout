@@ -4,10 +4,10 @@ import (
 	"context"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	"github.com/google/uuid"
-	"github.com/pepeunlimited/accounts/pkg/accountsrpc"
-	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
-	"github.com/pepeunlimited/billing/pkg/orderrpc"
-	"github.com/pepeunlimited/billing/pkg/paymentrpc"
+	"github.com/pepeunlimited/accounts/pkg/rpc/account"
+	"github.com/pepeunlimited/apple-iap/pkg/rpc/appleiap"
+	"github.com/pepeunlimited/billing/pkg/rpc/order"
+	"github.com/pepeunlimited/billing/pkg/rpc/payment"
 	"github.com/pepeunlimited/checkout/internal/server/validator"
 	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/pepeunlimited/products/pkg/rpc/price"
@@ -18,12 +18,12 @@ import (
 
 type CheckoutServer struct {
 	validator validator.CheckoutServerValidator
-	accounts  accountsrpc.AccountService
+	accounts  account.AccountService
 	products  product.ProductService
 	prices    price.PriceService
-	orders 	  orderrpc.OrderService
-	payments  paymentrpc.PaymentService
-	iap       applerpc.AppleIAPService
+	orders 	  order.OrderService
+	payments  payment.PaymentService
+	iap       appleiap.AppleIAPService
 }
 
 func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkout.CreateCheckoutParams) (*checkout.Checkout, error) {
@@ -31,8 +31,8 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 	if err != nil {
 		return nil, err
 	}
-	order, err := server.orders.CreateOrder(ctx, &orderrpc.CreateOrderParams{
-		OrderItems: []*orderrpc.OrderItem{&orderrpc.OrderItem{PriceId:  params.UserId, Quantity: 1}},
+	order, err := server.orders.CreateOrder(ctx, &order.CreateOrderParams{
+		OrderItems: []*order.OrderItem{&order.OrderItem{PriceId:  params.UserId, Quantity: 1}},
 		UserId: params.UserId,
 	})
 	if err != nil {
@@ -50,7 +50,7 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 	}
 	if price.Price == 0 || price.Discount == 0 {
 		// mark as paid
-		payment, err := server.payments.CreatePayment(ctx, &paymentrpc.CreatePaymentParams{
+		payment, err := server.payments.CreatePayment(ctx, &payment.CreatePaymentParams{
 			OrderId:             order.Order.Id,
 			PaymentInstrumentId: params.PaymentInstrumentId,
 			UserId:              params.UserId,
@@ -64,7 +64,7 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 			PaymentInstrumentId: payment.PaymentInstrumentId,
 		}, nil
 	}
-	paymentInstrument, err := server.payments.GetPaymentInstrument(ctx, &paymentrpc.GetPaymentInstrumentParams{Id: params.PaymentInstrumentId})
+	paymentInstrument, err := server.payments.GetPaymentInstrument(ctx, &payment.GetPaymentInstrumentParams{Id: params.PaymentInstrumentId})
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 		return nil, twirp.NewError(twirp.Aborted, "not_supported_payment_instrument")
 	}
 	// => mark to the order & payments
-	payment, err := server.payments.CreatePayment(ctx, &paymentrpc.CreatePaymentParams{
+	payment, err := server.payments.CreatePayment(ctx, &payment.CreatePaymentParams{
 		OrderId:             order.Order.Id,
 		PaymentInstrumentId: params.PaymentInstrumentId,
 		UserId:              params.UserId,
@@ -99,7 +99,7 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 
 func (server CheckoutServer) apple(ctx context.Context, receipt string, userId int64, product *product.Product, price *price.Price) error {
 	// execute validation for the IAP from AppleStore
-	verified, err := server.iap.VerifyReceipt(ctx, &applerpc.VerifyReceiptParams{
+	verified, err := server.iap.VerifyReceipt(ctx, &appleiap.VerifyReceiptParams{
 		Receipt: receipt,
 	})
 	if err != nil {
@@ -131,7 +131,7 @@ func (server CheckoutServer) apple(ctx context.Context, receipt string, userId i
 		toAmount 	:= amount //=> cut 60% fromAmount
 		referenceNumber := uuid.New().String()
 		// TODO: backoff https://github.com/jpillora/backoff
-		_, err = server.accounts.CreateDeposit(ctx, &accountsrpc.CreateDepositParams{
+		_, err = server.accounts.CreateDeposit(ctx, &account.CreateDepositParams{
 			UserId:          userId,
 			Amount:          toAmount,
 			ReferenceNumber: &wrappers.StringValue{Value: referenceNumber},
@@ -144,10 +144,10 @@ func (server CheckoutServer) apple(ctx context.Context, receipt string, userId i
 	return nil
 }
 
-func NewCheckoutServer(accounts accountsrpc.AccountService,
-	iap applerpc.AppleIAPService,
-	orders orderrpc.OrderService,
-	payments paymentrpc.PaymentService,
+func NewCheckoutServer(accounts account.AccountService,
+	iap appleiap.AppleIAPService,
+	orders order.OrderService,
+	payments payment.PaymentService,
 	products product.ProductService,
 	prices   price.PriceService) CheckoutServer {
 	return CheckoutServer {
