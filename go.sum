@@ -18,6 +18,7 @@ github.com/facebookincubator/ent v0.0.0-20200113192409-f270e41f6e45/go.mod h1:3C
 github.com/facebookincubator/ent v0.0.0-20200115103920-e016ca918c2c h1:7+l7FEyt5rxvjz5NCNGq+QEhxenD8xi0mRWkc5j+5+o=
 github.com/facebookincubator/ent v0.0.0-20200115103920-e016ca918c2c/go.mod h1:3CGvz1m+D78JUti7JFkY6AkKj88McWuT80UcamLqEJQ=
 github.com/facebookincubator/ent v0.1.2-0.20200205084332-814474815b7d/go.mod h1:HPlhuedKSDmFMBdvuPjio8lFficaUcO4U3eMtVxM2Zs=
+github.com/facebookincubator/ent v0.1.2-0.20200211120155-7f8c2249d32e/go.mod h1:HPlhuedKSDmFMBdvuPjio8lFficaUcO4U3eMtVxM2Zs=
 github.com/go-bindata/go-bindata v1.0.1-0.20190711162640-ee3c2418e368 h1:WNHfSP1q2vuAa9vF54RrhCl4nqxCjVcXhlbsRXbGOSY=
 github.com/go-bindata/go-bindata v1.0.1-0.20190711162640-ee3c2418e368/go.mod h1:7xCgX1lzlrXPHkfvn3EhumqHkmSlzt8at9q7v0ax19c=
 github.com/go-openapi/inflect v0.18.0 h1:4TMtuIyNxWl29TYpb1grUCuNy+koT0oN5ZXHb6wrZ3E=
@@ -93,6 +94,12 @@ github.com/pepeunlimited/microservice-kit v0.0.0-20200104135345-a4c82c1180ef h1:
 github.com/pepeunlimited/microservice-kit v0.0.0-20200104135345-a4c82c1180ef/go.mod h1:ioKXg9wp47PIRCa8isEhMhCtMJT8PDv85G8x0pPadSg=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200126083236-98e28bb35221 h1:gEekcNdow53x5vz2Hy4Q6EQ0yCkwZ+xKwdKdql5nESU=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200126083236-98e28bb35221/go.mod h1:ioKXg9wp47PIRCa8isEhMhCtMJT8PDv85G8x0pPadSg=
+github.com/pepeunlimited/products v0.0.0-20200224085455-bb5d7b0a1d12 h1:992SfkTW/4s8BIXdTUrXNnM7NWZGlFMQsDilJ+aGZs8=
+github.com/pepeunlimited/products v0.0.0-20200224085455-bb5d7b0a1d12/go.mod h1:k9so9x/FgXDoA3j7FFZ4YlImv2Isb/ZiiAfsxrDJ/Z0=
+github.com/pepeunlimited/products v0.0.0-20200224095458-c8bd5079a7c6 h1:FpU8E+hYNrNqcNqoGnO522as1brYpjYENKguw+eVtMw=
+github.com/pepeunlimited/products v0.0.0-20200224095458-c8bd5079a7c6/go.mod h1:k9so9x/FgXDoA3j7FFZ4YlImv2Isb/ZiiAfsxrDJ/Z0=
+github.com/pepeunlimited/products v0.0.0-20200224105606-7438bcdcf5d3 h1:L44bw4WhsbMYol5D7HXCsJq6jF/6GOrgTzAjJflhVRk=
+github.com/pepeunlimited/products v0.0.0-20200224105606-7438bcdcf5d3/go.mod h1:k9so9x/FgXDoA3j7FFZ4YlImv2Isb/ZiiAfsxrDJ/Z0=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

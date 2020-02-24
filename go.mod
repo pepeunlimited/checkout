@@ -10,5 +10,6 @@ require (
 	github.com/pepeunlimited/apple-iap v0.0.0-20200209124719-970c996f1588
 	github.com/pepeunlimited/billing v0.0.0-20200210134116-b41536a62610
 	github.com/pepeunlimited/microservice-kit v0.0.0-20200126083236-98e28bb35221
+	github.com/pepeunlimited/products v0.0.0-20200224105606-7438bcdcf5d3
 	github.com/twitchtv/twirp v5.10.0+incompatible
 )

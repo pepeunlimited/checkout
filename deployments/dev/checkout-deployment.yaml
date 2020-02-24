@@ -20,17 +20,15 @@ spec:
               value: apple-iap
             - name: RPC_ACCOUNTS_HOST
               value: accounts
-            - name: MYSQL_DATABASE
-              value: users
-            - name: MYSQL_HOST
-              value: external-mysql.default.svc
-            - name: MYSQL_PORT
-              value: "3306"
-            - name: MYSQL_ROOT_PASSWORD
-              value: root
-            - name: MYSQL_USER
-              value: root
-          image: pepeunlimited/checkout:0.1.4-3-gbdaa41e
+            - name: RPC_PAYMENT_HOST
+              value: billing
+            - name: RPC_ORDER_HOST
+              value: billing
+            - name: RPC_PRODUCT_HOST
+              value: products
+            - name: RPC_PRICE_HOST
+              value: products
+          image: pepeunlimited/checkout:0.1.4-5-gc9df32a
           name: checkout
           ports:
             - containerPort: 8080

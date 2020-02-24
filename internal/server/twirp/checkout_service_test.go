@@ -8,6 +8,8 @@ import (
 	"github.com/pepeunlimited/billing/pkg/orderrpc"
 	"github.com/pepeunlimited/billing/pkg/paymentrpc"
 	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
+	"github.com/pepeunlimited/products/pkg/rpc/price"
+	"github.com/pepeunlimited/products/pkg/rpc/product"
 	"net/http"
 	"testing"
 )
@@ -18,18 +20,17 @@ func TestCheckoutServer_CreateCheckout(t *testing.T) {
 
 	//appleiap := applerpc.NewAppleIAPMock(appleiap.NewAppStoreMock([]int{200}))
 	appleiap := applerpc.NewAppleIAPMock(appleiap.NewAppStoreMock([]int{0}))
-
-
 	payments := paymentrpc.NewPaymentServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
-	orders := orderrpc.NewOrderServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
+	orders 	 := orderrpc.NewOrderServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
+	products := product.NewProductServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
+	prices   := price.NewPriceServiceProtobufClient("api.dev.pepeunlimited.com", http.DefaultClient)
 
-
-	paymentInstrumentId 	:= uint32(1)
+	paymentInstrumentId 	:= uint32(11)
 	userId			   		:=  int64(2)
-	productId          		:=  int64(3)
+	productId          		:=  int64(77)
 
-	server := NewCheckoutServer(account, appleiap, orders, payments)
-	iap, err := server.CreateCheckout(ctx, &checkoutrpc.CreateCheckoutParams{
+	server := NewCheckoutServer(account, appleiap, orders, payments, products, prices)
+	_, err := server.CreateCheckout(ctx, &checkoutrpc.CreateCheckoutParams{
 		PaymentInstrumentId: paymentInstrumentId,
 		UserId:              userId,
 		ProductId:           productId,
@@ -38,10 +39,8 @@ func TestCheckoutServer_CreateCheckout(t *testing.T) {
 		t.Error(err)
 		t.FailNow()
 	}
-	if iap == nil {
-		t.FailNow()
-	}
-	if account.Account.Balance != 140 {
+	// initial account balance is 100 after deposit account should be 200
+	if account.Account.Balance != 200 {
 		t.FailNow()
 	}
 }
