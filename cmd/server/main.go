@@ -6,7 +6,7 @@ import (
 	"github.com/pepeunlimited/billing/pkg/orderrpc"
 	"github.com/pepeunlimited/billing/pkg/paymentrpc"
 	"github.com/pepeunlimited/checkout/internal/server/twirp"
-	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
+	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/pepeunlimited/microservice-kit/middleware"
 	"github.com/pepeunlimited/microservice-kit/misc"
 	"github.com/pepeunlimited/products/pkg/rpc/price"
@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	Version = "0.1.4"
+	Version = "0.1.4.1"
 )
 
 func init() {
@@ -40,7 +40,7 @@ func main() {
 	products := product.NewProductServiceProtobufClient(productsAddress, http.DefaultClient)
 	prices   := price.NewPriceServiceProtobufClient(pricesAddress, http.DefaultClient)
 
-	cs := checkoutrpc.NewCheckoutServiceServer(twirp.NewCheckoutServer(accounts, appleiap, orders, payments, products, prices), nil)
+	cs := checkout.NewCheckoutServiceServer(twirp.NewCheckoutServer(accounts, appleiap, orders, payments, products, prices), nil)
 
 	mux := http.NewServeMux()
 	mux.Handle(cs.PathPrefix(), middleware.Adapt(cs))

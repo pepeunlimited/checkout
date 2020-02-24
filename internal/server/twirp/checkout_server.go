@@ -9,7 +9,7 @@ import (
 	"github.com/pepeunlimited/billing/pkg/orderrpc"
 	"github.com/pepeunlimited/billing/pkg/paymentrpc"
 	"github.com/pepeunlimited/checkout/internal/server/validator"
-	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
+	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/pepeunlimited/products/pkg/rpc/price"
 	"github.com/pepeunlimited/products/pkg/rpc/product"
 	"github.com/twitchtv/twirp"
@@ -26,7 +26,7 @@ type CheckoutServer struct {
 	iap       applerpc.AppleIAPService
 }
 
-func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkoutrpc.CreateCheckoutParams) (*checkoutrpc.Checkout, error) {
+func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkout.CreateCheckoutParams) (*checkout.Checkout, error) {
 	err := server.validator.CreateCheckout(params)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 		if err != nil {
 			return nil, err
 		}
-		return &checkoutrpc.Checkout{
+		return &checkout.Checkout{
 			OrderId:             order.Order.Id,
 			PaymentId:           payment.Id,
 			PaymentInstrumentId: payment.PaymentInstrumentId,
@@ -90,7 +90,7 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 	if err != nil {
 		return nil, err
 	}
-	return &checkoutrpc.Checkout{
+	return &checkout.Checkout{
 		OrderId:             order.Order.Id,
 		PaymentId:           payment.Id,
 		PaymentInstrumentId: payment.PaymentInstrumentId,

@@ -7,7 +7,7 @@ import (
 	"github.com/pepeunlimited/apple-iap/pkg/applerpc"
 	"github.com/pepeunlimited/billing/pkg/orderrpc"
 	"github.com/pepeunlimited/billing/pkg/paymentrpc"
-	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
+	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/pepeunlimited/products/pkg/rpc/price"
 	"github.com/pepeunlimited/products/pkg/rpc/product"
 	"net/http"
@@ -30,7 +30,7 @@ func TestCheckoutServer_CreateCheckout(t *testing.T) {
 	productId          		:=  int64(77)
 
 	server := NewCheckoutServer(account, appleiap, orders, payments, products, prices)
-	_, err := server.CreateCheckout(ctx, &checkoutrpc.CreateCheckoutParams{
+	_, err := server.CreateCheckout(ctx, &checkout.CreateCheckoutParams{
 		PaymentInstrumentId: paymentInstrumentId,
 		UserId:              userId,
 		ProductId:           productId,

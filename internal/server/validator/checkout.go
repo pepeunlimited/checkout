@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"github.com/pepeunlimited/checkout/pkg/checkoutrpc"
+	"github.com/pepeunlimited/checkout/pkg/rpc/checkout"
 	"github.com/twitchtv/twirp"
 )
 
@@ -20,7 +20,7 @@ type CheckoutServerValidator struct {}
 //	return nil
 //}
 
-func (v CheckoutServerValidator) CreateCheckout(params *checkoutrpc.CreateCheckoutParams) error {
+func (v CheckoutServerValidator) CreateCheckout(params *checkout.CreateCheckoutParams) error {
 	if params.UserId == 0 {
 		return twirp.RequiredArgumentError("user_id")
 	}

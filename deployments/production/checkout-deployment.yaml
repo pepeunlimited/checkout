@@ -28,7 +28,7 @@ spec:
               value: products
             - name: RPC_PRICE_HOST
               value: products
-          image: pepeunlimited/checkout:0.1.4
+          image: pepeunlimited/checkout:0.1.4.1
           name: checkout
           ports:
             - containerPort: 8080

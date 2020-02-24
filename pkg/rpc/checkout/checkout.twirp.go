@@ -8,7 +8,7 @@ This code was generated with github.com/twitchtv/twirp/protoc-gen-twirp v5.10.0.
 It is generated from these files:
 	checkout.proto
 */
-package checkoutrpc
+package checkout
 
 import bytes "bytes"
 import strings "strings"
