@@ -96,6 +96,8 @@ github.com/pepeunlimited/billing v0.0.0-20200210134116-b41536a62610 h1:uNyo3XesS
 github.com/pepeunlimited/billing v0.0.0-20200210134116-b41536a62610/go.mod h1:m0d7DbsA1hWT13C4P7ThdPuxkCBjTbYjae2btUrmICM=
 github.com/pepeunlimited/billing v0.0.0-20200224160030-d65fbaa2e4a4 h1:W0rmc26KPn5sDt2FioCXEwY0/TCxGOkC6imW3ncAhqE=
 github.com/pepeunlimited/billing v0.0.0-20200224160030-d65fbaa2e4a4/go.mod h1:m0d7DbsA1hWT13C4P7ThdPuxkCBjTbYjae2btUrmICM=
+github.com/pepeunlimited/billing v0.0.0-20200225182038-ed7ab5af6fb3 h1:G4t4FGAl1/yEDP9DO9880IEeuPowMf4vmT7CUWf5Prg=
+github.com/pepeunlimited/billing v0.0.0-20200225182038-ed7ab5af6fb3/go.mod h1:m0d7DbsA1hWT13C4P7ThdPuxkCBjTbYjae2btUrmICM=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200104135345-a4c82c1180ef h1:TSx5pbfZ3p62PyHxXG0hBPNrUrakqBn46epd59RjjCc=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200104135345-a4c82c1180ef/go.mod h1:ioKXg9wp47PIRCa8isEhMhCtMJT8PDv85G8x0pPadSg=
 github.com/pepeunlimited/microservice-kit v0.0.0-20200126083236-98e28bb35221 h1:gEekcNdow53x5vz2Hy4Q6EQ0yCkwZ+xKwdKdql5nESU=

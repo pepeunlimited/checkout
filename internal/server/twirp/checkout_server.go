@@ -25,16 +25,10 @@ type CheckoutServer struct {
 	payments  payment.PaymentService
 	iap       appleiap.AppleIAPService
 }
+// TODO: start subscription
 
 func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkout.CreateCheckoutParams) (*checkout.Checkout, error) {
 	err := server.validator.CreateCheckout(params)
-	if err != nil {
-		return nil, err
-	}
-	order, err := server.orders.CreateOrder(ctx, &order.CreateOrderParams{
-		OrderItems: []*order.OrderItem{&order.OrderItem{PriceId:  params.UserId, Quantity: 1}},
-		UserId: params.UserId,
-	})
 	if err != nil {
 		return nil, err
 	}
@@ -44,6 +38,13 @@ func (server CheckoutServer) CreateCheckout(ctx context.Context, params *checkou
 	}
 	price, err := server.prices.GetPrice(ctx, &price.GetPriceParams{
 		ProductId: product.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+	order, err := server.orders.CreateOrder(ctx, &order.CreateOrderParams{
+		OrderItems: []*order.OrderItem{&order.OrderItem{Quantity: 1, PriceId:price.Id}},
+		UserId: params.UserId,
 	})
 	if err != nil {
 		return nil, err
